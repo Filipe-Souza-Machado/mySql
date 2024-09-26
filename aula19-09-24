@@ -1,32 +1,69 @@
-CREATE TABLE INSTRUTOR (
-  ID_INSTRUTOR INTEGER UNSIGNED  NOT NULL   AUTO_INCREMENT,
-  NOME VARCHAR(255)  NULL  ,
-  SOBRENOME VARCHAR(255)  NULL  ,
-  EMAIL VARCHAR(255)  NULL    ,
-PRIMARY KEY(ID_INSTRUTOR));
+create table produtos(
+codigoProduto INT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL ,
+marca VARCHAR(50) NOT NULL ,
+preco DECIMAL(10,2) NOT NULL 
+);
 
-CREATE TABLE CURSO (
-  ID_CURSO INTEGER UNSIGNED  NOT NULL   AUTO_INCREMENT,
-  INSTRUTOR_ID_INSTRUTOR INTEGER UNSIGNED  NOT NULL  ,
-  ID_INSTRUTOR INTEGER UNSIGNED  NULL  ,
-  TITULO_DESCRICAO VARCHAR(255)  NULL  ,
-  CATEGORIA VARCHAR(255)  NULL  ,
-  NIVEL_DE-DIFICULDAE VARCHAR(255)  NULL  ,
-  POPULARIDADE VARCHAR(50)  NULL    ,
-PRIMARY KEY(ID_CURSO)  ,
-INDEX CURSO_FKIndex1(INSTRUTOR_ID_INSTRUTOR));
+CREATE TABLE clientes(
+codigoClientes INT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL,
+cpf CHAR(14) NOT NULL,
+sexo CHAR(1) NOT NULL,
+dataNascimento DATE
+);
 
-CREATE TABLE ALUNO (
-  idALUNO INTEGER UNSIGNED  NOT NULL   AUTO_INCREMENT,
-  NOME VARCHAR(255)  NULL  ,
-  SOBRENOME VARCHAR(255)  NULL  ,
-  EMAIL VARCHAR(255)  NULL    ,
-PRIMARY KEY(idALUNO));
+CREATE TABLE compras(
+codigoCompras INT PRIMARY KEY,
+codigoProduto INT,
+codigoCliente INT,
+totalUnidades INT NOT NULL,
+foreign key(codigoProduto) references produtos(codigoProduto),
+foreign key(codigoCliente) references clientes(codigoCliente)
+);
 
-CREATE TABLE INSCRICAO (
-  idINSCRICAO INTEGER UNSIGNED  NOT NULL   AUTO_INCREMENT,
-  ALUNO_idALUNO INTEGER UNSIGNED  NOT NULL  ,
-  DATA_INSCRICAO DATE  NULL  ,
-  STATUS_2 VARCHAR(50)  NULL    ,
-PRIMARY KEY(idINSCRICAO)  ,
-INDEX INSCRICAO_FKIndex1(ALUNO_idALUNO));
+-- inserindo: produtos.
+INSERT INTO produtos(codigoProduto,nome,marca,preco) VALUES(1, 'televisor 42', 'samsung', 2200);
+INSERT INTO produtos(codigoProduto,nome,marca,preco) VALUES(2, 'celular', 'apple', 5300);
+INSERT INTO produtos(codigoProduto,nome,marca,preco) VALUES(3, 'notebook', 'Dell Ispiron', 2600);
+INSERT INTO produtos(codigoProduto,nome,marca,preco) VALUES(4, 'pc Aurora', 'Alienware', 13000);
+INSERT INTO produtos(codigoProduto,nome,marca,preco) VALUES(5, 'W800BT PLUS', 'Edifier', 277);
+
+-- inserindo: clientes.
+INSERT INTO clientes(codigoClientes,nome,cpf,sexo,dataNascimento) VALUES(1, 'Paulo', '123.456.543-33', 'M', 1934-06-15);
+INSERT INTO clientes(codigoClientes,nome,cpf,sexo,dataNascimento) VALUES(2, 'Laura', '133.656.583-39', 'F', 1967-11-12);
+INSERT INTO clientes(codigoClientes,nome,cpf,sexo,dataNascimento) VALUES(3, 'Carla', '223.496.544-36', 'F', 1980-03-09);
+INSERT INTO clientes(codigoClientes,nome,cpf,sexo,dataNascimento) VALUES(4, 'Irineu', '923.756.343-23', 'M', 2024-05-23);
+INSERT INTO clientes(codigoClientes,nome,cpf,sexo,dataNascimento) VALUES(5, 'Luiz', '129.656.593-73', 'M', 200-07-10);
+
+-- inserindo: compras.
+INSERT INTO compras(codigoCompras,codigoProdutos,codigoClientes,totalUnidades) VALUES(1,1,1,2);
+INSERT INTO compras(codigoCompras,codigoProdutos,codigoClientes,totalUnidades) VALUES(2,4,2,1);
+INSERT INTO compras(codigoCompras,codigoProdutos,codigoClientes,totalUnidades) VALUES(3,3,4,3);
+INSERT INTO compras(codigoCompras,codigoProdutos,codigoClientes,totalUnidades) VALUES(4,1,5,1);
+INSERT INTO compras(codigoCompras,codigoProdutos,codigoClientes,totalUnidades) VALUES(5,2,3,4);
+
+-- Alterando: produtos.
+UPDATE produtos SET preco = 2300.00 WHERE codigoProduto = 1;
+UPDATE produtos SET marca = 'Samsung' WHERE codigoProduto = 2;
+
+-- Alterando: clientes.
+UPDATE clientes SET nome = 'Isaac' WHERE codigoClientes = 1;
+UPDATE clientes SET cpf = '846.756.745-62' WHERE codigoClientes = 2;
+
+-- Alterando: compras.
+UPDATE compras SET totalUnidades = 5 WHERE codigoCompras = 1;
+UPDATE compras SET codigoProduto = 3 WHERE codigoProduto = 2;
+
+-- Deletando: produtos.
+DELETE FROM produtos WHERE codigoProduto = 5;
+DELETE FROM produtos WHERE codigoProduto = 2;
+
+-- Deletando: clientes.
+DELETE FROM clientes WHERE codigoClientes= 3;
+DELETE FROM clientes WHERE codigoClientes = 5;
+
+-- Deletando: compras.
+DELETE FROM compras WHERE codigoCompras = 4;
+DELETE FROM compras WHERE codigoCompras = 5;
+
